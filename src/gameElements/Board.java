@@ -1,12 +1,15 @@
 package gameElements;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 
 public class Board {
 	
 	//ATTENTION
-	//Ceci est un squelette incomplet contenant uniquement le profil de quelques méthodes, dans le but de compiler la classe GameUI sans erreurs
+	//Ceci est un squelette incomplet contenant uniquement le profil de quelques mﾃｩthodes, dans le but de compiler la classe GameUI sans erreurs
 	//Il manque les getters et les setters ainsi que les classes externes telles que Square, Eval, Game, Player,...
 	
 	private Game game;
@@ -120,7 +123,7 @@ public class Board {
 	}
 
 	public boolean isAccessible(int i, int j) {
-		return isLineAccessible(i, j) && isColumnAccessible(i, j)
+		return (!board[i][j].blocksPassageway()) && isLineAccessible(i, j) && isColumnAccessible(i, j)
 				&& isRightDiagonalAccessible(i, j) && isLeftDiagonalAccessible(i, j);
 	}
 	
@@ -245,9 +248,60 @@ public class Board {
 	}
 	
 	//----------TP2-----------------------
-	public ArrayList<Board> depthFirstSearch(Board b) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isSolution(){
+		return numberOfQueens() == size;
+	}
+	
+	public Iterable<Board> getSuccessors(){
+		ArrayList<Board> res = new ArrayList<Board>();
+		for(int i=0; i < size; i++){
+			for(int j=0; j < size; j++){
+				if(isAccessible(i, j)){
+					Board other = this.clone();
+					assert(other.placeQueen(i, j));
+					res.add(other);
+				}
+			}
+		}
+		//System.out.println("nb succs : "+res.size());
+		return res;
+	}
+	
+	public ArrayList<Board> depthFirstSearch(Board initialState) {
+		if(initialState.isFinal()){
+			ArrayList<Board> res = new ArrayList<Board>();
+			res.add(initialState);
+			return res;
+		}
+		for(Board succ : initialState.getSuccessors()){
+			try{
+				ArrayList<Board> res = depthFirstSearch(succ);
+				res.add(initialState);
+				return res;
+			}
+			catch(NoSuchElementException e){
+				System.out.println("échec");
+			}
+		}
+		throw new NoSuchElementException("DepthFirstSearch failure");
+	}
+	
+	
+	public ArrayList<Board> depthfirstSearch(){
+		return depthFirstSearch(this);
+	}
+	
+	
+	public String solutionSteps(Board b){
+		StringBuilder res = new StringBuilder();
+		
+		ArrayList<Board> sol = depthFirstSearch(b);
+		for(int i=sol.size()-1; i >= 0; i--){
+			res.append(sol.get(i).toString());
+			res.append("\n *** \n");
+		}
+
+		return res.toString();
 	}
 	
 	

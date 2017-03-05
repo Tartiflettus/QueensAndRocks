@@ -20,9 +20,13 @@ public class Main {
 		
 		
 		board.placeQueen(0, 0);
-		board.placeQueen(7, 6);
 		
 		System.out.println(board.toStringAccess());
+	}
+	
+	
+	private static void testComputer(Board board){
+		System.out.println(board.solutionSteps(board));
 	}
 
 	/**
@@ -31,9 +35,10 @@ public class Main {
 	public static void main(String[] args) {
 		Game g = new Game();
 		g.setColorMode("wb");
-		Board board = new Board(g);
+		Board board = new Board(g, 4);
 		
-		testSolo(board);
+		//testSolo(board);
+		testComputer(board);
 		
 		display(board);
 	}
