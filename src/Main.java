@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.DisplayMode;
+import java.util.NoSuchElementException;
 
 import gameElements.Board;
 import gameElements.Game;
@@ -26,7 +27,14 @@ public class Main {
 	
 	
 	private static void testComputer(Board board){
-		System.out.println(board.solutionSteps(board));
+		String res = "";
+		try{
+			res = board.solutionSteps(board);
+		}
+		catch(NoSuchElementException e){
+			System.out.println("Pas de solution");
+			System.out.println(res);
+		}
 	}
 
 	/**
