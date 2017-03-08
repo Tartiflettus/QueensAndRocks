@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.DisplayMode;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import gameElements.Board;
@@ -26,14 +27,48 @@ public class Main {
 	}
 	
 	
-	private static void testComputer(Board board){
-		String res = "";
-		try{
-			res = board.solutionSteps(board);
+	private static void testComputerAux(Board board){
+		{
+			Date d = new Date();
+			long t = d.getTime();
+			String res = "";
+			try{
+				res = board.solutionSteps(board);
+				//System.out.println("solution :\n" + res);
+				System.out.println("il y a une solution");
+			}
+			catch(NoSuchElementException e){
+				System.out.println("Pas de solution");
+				System.out.println(res);
+			}
+			d = new Date();
+			System.out.println("Temps mis pour " + board.getSize()+ " : " + (d.getTime() - t));
 		}
-		catch(NoSuchElementException e){
-			System.out.println("Pas de solution");
-			System.out.println(res);
+		{
+			Date d = new Date();
+			long t = d.getTime();
+			String res = "";
+			try{
+				res = board.solutionSteps2(board);
+				//System.out.println("solution :\n" + res);
+				System.out.println("il y a une solution");
+			}
+			catch(NoSuchElementException e){
+				System.out.println("Pas de solution");
+				System.out.println(res);
+			}
+			d = new Date();
+			System.out.println("Temps mis pour " + board.getSize()+ " (2) : " + (d.getTime() - t));
+		}
+		
+	}
+	
+	
+	private static void testComputer(Board board){
+		for(int i=3; i <= 12; i++){
+			System.gc();
+			board = new Board(board.getGame(), i);
+			testComputerAux(board);
 		}
 	}
 
@@ -48,7 +83,7 @@ public class Main {
 		//testSolo(board);
 		testComputer(board);
 		
-		display(board);
+		//display(board);
 	}
 
 }

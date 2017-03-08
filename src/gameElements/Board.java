@@ -259,6 +259,7 @@ public class Board {
 				if(isAccessible(i, j)){
 					Board other = this.clone();
 					assert(other.placeQueen(i, j));
+					//System.out.println(other.toString() + "\n----\n");
 					res.add(other);
 				}
 			}
@@ -267,8 +268,20 @@ public class Board {
 		return res;
 	}
 	
+	public Iterable<Board> getNewSuccessors(){
+		ArrayList<Board> res= new ArrayList<Board>();
+		for(int j=0; j < size; j++){
+			if(isAccessible(numberOfQueens(), j)){
+				Board tmp = this.clone();
+				assert(tmp.placeQueen(numberOfQueens(), j));
+				res.add(tmp);
+			}
+		}
+		return res;
+	}
+	
 	public ArrayList<Board> depthFirstSearch(Board initialState) {
-		if(initialState.isFinal()){
+		if(initialState.isSolution()){
 			ArrayList<Board> res = new ArrayList<Board>();
 			res.add(initialState);
 			return res;
@@ -280,7 +293,7 @@ public class Board {
 				return res;
 			}
 			catch(NoSuchElementException e){
-				System.out.println("échec");
+				//System.out.println("échec");
 			}
 		}
 		throw new NoSuchElementException("DepthFirstSearch failure");
@@ -292,10 +305,46 @@ public class Board {
 	}
 	
 	
+	public ArrayList<Board> depthFirstSearch2(Board initialState){
+		if(initialState.isSolution()){
+			ArrayList<Board> res = new ArrayList<Board>();
+			res.add(initialState);
+			return res;
+		}
+		for(Board succ : initialState.getNewSuccessors()){
+			try{
+				ArrayList<Board> res = depthFirstSearch(succ);
+				res.add(initialState);
+				return res;
+			}
+			catch(NoSuchElementException e){
+				//System.out.println("échec");
+			}
+		}
+		throw new NoSuchElementException("DepthFirstSearch failure");
+	}
+	
+	public ArrayList<Board> depthFirstSearch2(){
+		return depthFirstSearch2(this);
+	}
+	
+	
 	public String solutionSteps(Board b){
 		StringBuilder res = new StringBuilder();
 		
 		ArrayList<Board> sol = depthFirstSearch(b);
+		for(int i=sol.size()-1; i >= 0; i--){
+			res.append(sol.get(i).toString());
+			res.append("\n *** \n");
+		}
+
+		return res.toString();
+	}
+	
+	public String solutionSteps2(Board b){
+		StringBuilder res = new StringBuilder();
+		
+		ArrayList<Board> sol = depthFirstSearch2(b);
 		for(int i=sol.size()-1; i >= 0; i--){
 			res.append(sol.get(i).toString());
 			res.append("\n *** \n");
