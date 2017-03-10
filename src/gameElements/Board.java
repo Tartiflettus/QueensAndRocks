@@ -354,6 +354,92 @@ public class Board {
 	}
 	
 	
+	public int[] BoardToArray(Board b){
+		int[] res = new int[b.getSize()];
+		
+		for(int i=0; i < b.getSize(); i++){
+			res[i] = -1;
+			for(int j=0; j < b.getSize(); j++){
+				if(b.board[i][j].blocksPassageway()){
+					res[i] = j;
+				}
+			}
+		}
+		return res;
+	}
+	
+	public Board arrayToBoard(int[] b){
+		Board res = new Board(getGame(), b.length);
+		
+		for(int i=0; i < b.length; i++){
+			if(b[i] != -1){
+				assert(res.placeQueen(i, b[i]));
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	public Iterable<int[]> getArraySuccessors(int[] b){
+		ArrayList<int[]> res = new ArrayList<int[]>();
+		
+		Board tmp = arrayToBoard(b);
+		Iterable<Board> succ = tmp.getNewSuccessors();
+		for(Board cur : succ){
+			res.add(BoardToArray(cur));
+		}
+		
+		return res;
+	}
+	
+	public boolean isSolutionArray(int[] array){
+		if(array[array.length-1] == -1){
+			return false;
+		}
+		else{
+			//System.out.println("trouve\n");
+			return true;
+		}
+	}
+	
+	
+	public ArrayList<int[]> depthFirstSearchArray(int[] initialState){
+		if(isSolutionArray(initialState)){
+			ArrayList<int[]> res = new ArrayList<int[]>();
+			res.add(initialState);
+			return res;
+		}
+		for(int[] succ : getArraySuccessors(initialState)){
+			try{
+				ArrayList<int[]> res = depthFirstSearchArray(succ);
+				res.add(initialState);
+				return res;
+			}
+			catch(NoSuchElementException e){
+				//System.out.println("échec");
+			}
+		}
+		throw new NoSuchElementException("DepthFirstSearch failure");
+	}
+	
+	public ArrayList<int[]> depthFirstSearchArray(){
+		return depthFirstSearchArray(BoardToArray(this));
+	}
+	
+	public String solutionStepsArray(int[] b){
+		StringBuilder res = new StringBuilder();
+		
+		ArrayList<int[]> sol = depthFirstSearchArray(b);
+		for(int i=sol.size()-1; i >= 0; i--){
+			res.append(sol.get(i).toString());
+			res.append("\n *** \n");
+		}
+
+		return res.toString();
+	}
+	
+	
 	//------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
 		// TODO Auto-generated method stub

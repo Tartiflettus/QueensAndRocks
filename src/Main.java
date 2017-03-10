@@ -60,6 +60,22 @@ public class Main {
 			d = new Date();
 			System.out.println("Temps mis pour " + board.getSize()+ " (2) : " + (d.getTime() - t));
 		}
+		{
+			Date d = new Date();
+			long t = d.getTime();
+			String res = "";
+			try{
+				res = board.solutionStepsArray(board.BoardToArray(board));
+				//System.out.println("solution :\n" + res);
+				System.out.println("il y a une solution");
+			}
+			catch(NoSuchElementException e){
+				System.out.println("Pas de solution");
+				System.out.println(res);
+			}
+			d = new Date();
+			System.out.println("Temps mis pour " + board.getSize()+ " (3) : " + (d.getTime() - t));
+		}
 		
 	}
 	
@@ -70,6 +86,22 @@ public class Main {
 			board = new Board(board.getGame(), i);
 			testComputerAux(board);
 		}
+	}
+	
+	
+	private static void testBoardArray(Board board){
+		board.placeQueen(0, 0);
+		board.placeQueen(1,  2);
+		System.out.println("board : \n"+board.toString() + "\n");
+		
+		int[] tmp = board.BoardToArray(board);
+		System.out.println("array :\n");
+		for(int i=0; i < tmp.length; i++){
+			System.out.println(tmp[i] + "\n");
+		}
+			
+			
+		System.out.println("conversion double :\n"+board.arrayToBoard(board.BoardToArray(board)));
 	}
 
 	/**
@@ -82,6 +114,7 @@ public class Main {
 		
 		//testSolo(board);
 		testComputer(board);
+		//testBoardArray(board);
 		
 		//display(board);
 	}
