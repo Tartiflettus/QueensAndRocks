@@ -103,6 +103,19 @@ public class Main {
 			
 		System.out.println("conversion double :\n"+board.arrayToBoard(board.BoardToArray(board)));
 	}
+	
+	private static void testClone(Board b){
+		Game g = b.getGame();
+		
+		assert(b.placeQueen2(0, 0, g.getPlayer0()));
+		assert(!b.placeQueen2(3, 3, g.getPlayer1()));
+		assert(b.placeRock2(0,  1,  g.getPlayer1()));
+		assert(b.placeRock2(1,  0, g.getPlayer0()));
+		
+		System.out.println(b.toStringAccess());
+		System.out.println(b.toStringAccess2(g.getPlayer0()));
+		System.out.println(b.toStringAccess2(g.getPlayer1()));
+	}
 
 	/**
 	 * @param args
@@ -116,8 +129,9 @@ public class Main {
 		//testSolo(board);
 		//testComputer(board);
 		//testBoardArray(board);
+		testClone(board);
 		
-		display(board);
+		//display(board);
 		System.out.println("ça tourne");
 	}
 

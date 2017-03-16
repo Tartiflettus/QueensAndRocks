@@ -510,6 +510,8 @@ public class Board {
 			for(int j=0; j < size; j++){
 				if(isAccessible2(i, j, p)){
 					sb.append(board[i][j].toString() + "\t");
+				}else{
+					sb.append("..\t");
 				}
 			}
 			sb.append('\n');
