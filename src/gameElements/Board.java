@@ -23,6 +23,8 @@ public class Board {
 	private int queensPlayer0;
 	private int queensPlayer1;
 	
+	private static final int queenValue = 5;
+	private static final int rockValue = 2;
 	
 	//---------------TP1------------------------
 	public Board(Game g, int size, int nbPieces, Square[][] board){
@@ -547,8 +549,8 @@ public class Board {
 	}
 	
 	public int getScore(Player player){
-		// TODO Auto-generated method stub
-		return 0;
+		return player.getNumber() == 0 ? rocksPlayer0*rockValue + queensPlayer0*queenValue
+				: rocksPlayer1*rockValue + queensPlayer1*queenValue;
 	}
 
 
