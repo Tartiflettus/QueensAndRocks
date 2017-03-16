@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 public class Board {
 	
 	//ATTENTION
-	//Ceci est un squelette incomplet contenant uniquement le profil de quelques mﾃｩthodes, dans le but de compiler la classe GameUI sans erreurs
+	//Ceci est un squelette incomplet contenant uniquement le profil de quelques m�ｾ�ｽｩthodes, dans le but de compiler la classe GameUI sans erreurs
 	//Il manque les getters et les setters ainsi que les classes externes telles que Square, Eval, Game, Player,...
 	
 	private Game game;
@@ -43,6 +43,8 @@ public class Board {
 				this.board[i][j] = new Empty();
 			}
 		}
+		rocksPlayer0 = 0;
+		rocksPlayer1 = 0;
 	}
 	
 	//default size of the board : 8
@@ -51,6 +53,23 @@ public class Board {
 	}
 	
 	
+	
+	public int getRocksPlayer0() {
+		return rocksPlayer0;
+	}
+
+	public void setRocksPlayer0(int rocksPlayer0) {
+		this.rocksPlayer0 = rocksPlayer0;
+	}
+
+	public int getRocksPlayer1() {
+		return rocksPlayer1;
+	}
+
+	public void setRocksPlayer1(int rocksPlayer1) {
+		this.rocksPlayer1 = rocksPlayer1;
+	}
+
 	public Game getGame() {
 		return game;
 	}
@@ -123,6 +142,8 @@ public class Board {
 			}
 		}
 		ans.setBoard(b);
+		ans.rocksPlayer0 = rocksPlayer0;
+		ans.rocksPlayer1 = rocksPlayer1;
 		
 		return ans;
 	}
@@ -298,7 +319,7 @@ public class Board {
 				return res;
 			}
 			catch(NoSuchElementException e){
-				//System.out.println("échec");
+				//System.out.println("ﾃｩchec");
 			}
 		}
 		throw new NoSuchElementException("DepthFirstSearch failure");
@@ -323,7 +344,7 @@ public class Board {
 				return res;
 			}
 			catch(NoSuchElementException e){
-				//System.out.println("échec");
+				//System.out.println("ﾃｩchec");
 			}
 		}
 		throw new NoSuchElementException("DepthFirstSearch failure");
@@ -422,7 +443,7 @@ public class Board {
 				return res;
 			}
 			catch(NoSuchElementException e){
-				//System.out.println("échec");
+				//System.out.println("ﾃｩchec");
 			}
 		}
 		throw new NoSuchElementException("DepthFirstSearch failure");
