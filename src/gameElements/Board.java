@@ -20,6 +20,9 @@ public class Board {
 	private int rocksPlayer0;
 	private int rocksPlayer1;
 	
+	private int queensPlayer0;
+	private int queensPlayer1;
+	
 	
 	//---------------TP1------------------------
 	public Board(Game g, int size, int nbPieces, Square[][] board){
@@ -514,13 +517,33 @@ public class Board {
 	
 	
 	public boolean placeQueen2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		if(!isAccessible(i, j)){
+			return false;
+		}
+		if(player.getNumber() == 0){
+			++queensPlayer0;
+			board[i][j] = game.getQueen0();
+		}else{
+			++queensPlayer1;
+			board[i][j] = game.getQueen1();
+		}
+		
+		return true;
 	}
 
 	public boolean placeRock2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		if(board[i][j].blocksPassageway()){
+			return false;
+		}
+		if(player.getNumber() == 0){
+			++rocksPlayer0;
+			board[i][j] = game.getRock0();
+		}else{
+			++rocksPlayer1;
+			board[i][j] = game.getRock1();
+		}
+		
+		return true;
 	}
 	
 	public int getScore(Player player){
