@@ -499,6 +499,19 @@ public class Board {
 		return res;
 	}
 	
+	public String toStringAccess2(Player p){
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i < size; i++){
+			for(int j=0; j < size; j++){
+				if(isAccessible2(i, j, p)){
+					sb.append(board[i][j].toString() + "\t");
+				}
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+	
 	
 	public boolean placeQueen2(int i, int j, Player player) {
 		// TODO Auto-generated method stub
