@@ -591,7 +591,7 @@ public class Board {
 				if(isAccessible2(i, j, p)){
 					sb.append(board[i][j].toString() + "\t");
 				}else{
-					sb.append("..\t");
+					sb.append("xx\t");
 				}
 			}
 			sb.append('\n');
