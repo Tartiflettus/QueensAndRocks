@@ -487,6 +487,19 @@ public class Board {
 	}
 	
 	
+	public int numberOfAccessible2(Player p){
+		int res = 0;
+		for(int i=0; i < size; i++){
+			for(int j=0; j < size; j++){
+				if(isAccessible2(i, j, p)){
+					++res;
+				}
+			}
+		}
+		return res;
+	}
+	
+	
 	public boolean placeQueen2(int i, int j, Player player) {
 		// TODO Auto-generated method stub
 		return false;
