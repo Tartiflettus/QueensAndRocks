@@ -6,4 +6,5 @@ public interface Square {
 	public void setPlayer(Player p);
 	
 	public boolean blocksPassageway();
+	public boolean isQueen();
 }

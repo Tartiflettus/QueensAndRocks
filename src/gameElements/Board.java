@@ -17,6 +17,9 @@ public class Board {
 	private int nbPieces;
 	private Square[][] board;
 	
+	private int rocksPlayer0;
+	private int rocksPlayer1;
+	
 	
 	//---------------TP1------------------------
 	public Board(Game g, int size, int nbPieces, Square[][] board){
@@ -24,6 +27,8 @@ public class Board {
 		this.size = size;
 		this.nbPieces = nbPieces;
 		this.board = board;
+		rocksPlayer0 = 0;
+		rocksPlayer1 = 0;
 	}
 	
 	public Board(Game g, int size){

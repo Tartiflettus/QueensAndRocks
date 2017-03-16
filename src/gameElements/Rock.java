@@ -26,4 +26,9 @@ public class Rock implements Square {
 	public boolean blocksPassageway(){
 		return true;
 	}
+	
+	@Override
+	public boolean isQueen(){
+		return false;
+	}
 }

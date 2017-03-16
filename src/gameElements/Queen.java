@@ -26,5 +26,10 @@ public class Queen implements Square {
 	public boolean blocksPassageway(){
 		return true;
 	}
+	
+	@Override
+	public boolean isQueen(){
+		return true;
+	}
 
 }
