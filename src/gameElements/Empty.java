@@ -26,5 +26,10 @@ public class Empty implements Square {
 	public boolean blocksPassageway(){
 		return false;
 	}
+	
+	@Override
+	public boolean isQueen(){
+		return false;
+	}
 
 }
