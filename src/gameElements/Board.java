@@ -20,10 +20,15 @@ public class Board {
 	private Square[][] board;
 
 	private int rocksPlayer0;
-	private int rocksPlayer1;
-
-	// ---------------TP1------------------------
-	public Board(Game g, int size, int nbPieces, Square[][] board) {
+	private int rocksPlayer1;	
+	private int queensPlayer0;
+	private int queensPlayer1;
+	
+	private static final int queenValue = 5;
+	private static final int rockValue = 2;
+	
+	//---------------TP1------------------------
+	public Board(Game g, int size, int nbPieces, Square[][] board){
 		this.game = g;
 		this.size = size;
 		this.nbPieces = nbPieces;
@@ -472,13 +477,13 @@ public class Board {
 
 	// ------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player player) {
-		System.out.println(board[i][j].blocksPassageway());
+		/*System.out.println(board[i][j].blocksPassageway());
 		System.out.println(isLineAccessible2(i, j, player));
 		System.out.println(isColumnAccessible2(i, j, player));
 		System.out.println(isRightDiagonalAccessible2(i, j, player));
 		System.out.println(isLeftDiagonalAccessible2(i, j, player));
 		System.out.println("test" + (isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
-				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player)));
+				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player)));*/
 		return (isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
 				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player));
 	}
@@ -565,21 +570,68 @@ public class Board {
 			col++;
 		}
 		return true;
+	}	
+	
+	public int numberOfAccessible2(Player p){
+		int res = 0;
+		for(int i=0; i < size; i++){
+			for(int j=0; j < size; j++){
+				if(isAccessible2(i, j, p)){
+					++res;
+				}
+			}
+		}
+		return res;
 	}
-
+	
+	public String toStringAccess2(Player p){
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i < size; i++){
+			for(int j=0; j < size; j++){
+				if(isAccessible2(i, j, p)){
+					sb.append(board[i][j].toString() + "\t");
+				}else{
+					sb.append("..\t");
+				}
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+	
 	public boolean placeQueen2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		if(!isAccessible(i, j)){
+			return false;
+		}
+		if(player.getNumber() == 0){
+			++queensPlayer0;
+			board[i][j] = game.getQueen0();
+		}else{
+			++queensPlayer1;
+			board[i][j] = game.getQueen1();
+		}
+		
+		return true;
 	}
 
 	public boolean placeRock2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		if(board[i][j].blocksPassageway()){
+			return false;
+		}
+		if(player.getNumber() == 0){
+			++rocksPlayer0;
+			board[i][j] = game.getRock0();
+		}else{
+			++rocksPlayer1;
+			board[i][j] = game.getRock1();
+		}
+		
+		return true;
 	}
-
-	public int getScore(Player player) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public int getScore(Player player){
+		return player.getNumber() == 0 ? rocksPlayer0*rockValue + queensPlayer0*queenValue
+				: rocksPlayer1*rockValue + queensPlayer1*queenValue;
 	}
 
 	// ----------------------TP4&5--------------------------
