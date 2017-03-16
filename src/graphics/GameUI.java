@@ -194,6 +194,7 @@ public class GameUI {
 				}
 				else{
 					if(showingAccess && b.getPiece(i, j) instanceof Empty && !b.isAccessible2(i, j,currentPlayer)){
+						
 						URL url = getClass().getResource("/red.png") ;
 						buttons[i][j]=new JButton(new ImageIcon(Toolkit.getDefaultToolkit().getImage(url)));
 					}

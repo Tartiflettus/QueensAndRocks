@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import gameElements.Board;
 import gameElements.Game;
+import gameElements.Player;
 import graphics.GameUI;
 
 
@@ -107,11 +108,16 @@ public class Main {
 	private static void testClone(Board b){
 		Game g = b.getGame();
 		
-		assert(b.placeQueen2(0, 0, g.getPlayer0()));
-		assert(!b.placeQueen2(3, 3, g.getPlayer1()));
-		assert(b.placeRock2(0,  1,  g.getPlayer1()));
-		assert(b.placeRock2(1,  0, g.getPlayer0()));
+		//assert(b.placeQueen2(0, 0, g.getPlayer0()));
+		//assert(!b.placeQueen2(3, 3, g.getPlayer1()));
+		//assert(b.placeQueen2(1,  2,  g.getPlayer1()));
 		
+		assert(b.placeRock2(0, 0, g.getPlayer0()));
+		assert(b.placeRock2(1, 1, g.getPlayer1()));
+		assert(b.placeRock2(2,  2,  g.getPlayer0()));
+		assert(b.placeRock2(3,  3,  g.getPlayer1()));
+
+		System.out.println(b.isAccessible2(1,0, new Player(1)));
 		System.out.println(b.toStringAccess());
 		System.out.println(b.toStringAccess2(g.getPlayer0()));
 		System.out.println(b.toStringAccess2(g.getPlayer1()));
@@ -131,7 +137,7 @@ public class Main {
 		//testBoardArray(board);
 		testClone(board);
 		
-		//display(board);
+		display(board);
 		System.out.println("ça tourne");
 	}
 

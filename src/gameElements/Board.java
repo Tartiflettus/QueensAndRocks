@@ -1,8 +1,6 @@
 package gameElements;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class Board {
@@ -20,15 +18,15 @@ public class Board {
 	private Square[][] board;
 
 	private int rocksPlayer0;
-	private int rocksPlayer1;	
+	private int rocksPlayer1;
 	private int queensPlayer0;
 	private int queensPlayer1;
-	
+
 	private static final int queenValue = 5;
 	private static final int rockValue = 2;
-	
-	//---------------TP1------------------------
-	public Board(Game g, int size, int nbPieces, Square[][] board){
+
+	// ---------------TP1------------------------
+	public Board(Game g, int size, int nbPieces, Square[][] board) {
 		this.game = g;
 		this.size = size;
 		this.nbPieces = nbPieces;
@@ -477,25 +475,19 @@ public class Board {
 
 	// ------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player player) {
-		/*System.out.println(board[i][j].blocksPassageway());
-		System.out.println(isLineAccessible2(i, j, player));
-		System.out.println(isColumnAccessible2(i, j, player));
-		System.out.println(isRightDiagonalAccessible2(i, j, player));
-		System.out.println(isLeftDiagonalAccessible2(i, j, player));
-		System.out.println("test" + (isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
-				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player)));*/
-		return (isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
+		return (!board[i][j].blocksPassageway() && isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
 				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player));
 	}
 
 	private boolean isLineAccessible2(int i, int j, Player p) {
 		Bool thereIsRock = new Bool(false);
-		for (int k = j - 1; k >= 0; k--) {
+		for (int k = j-1; k >= 0; k--) {
 			if (!rockOnTheRoad(i, k, thereIsRock, p))
 				return false;
 		}
-		thereIsRock.set(false);
-		for (int k = j + 1; k < size; k++) {
+		thereIsRock.setRock(false);
+		thereIsRock.setQueen(false);
+		for (int k = j+1; k < size; k++) {
 
 			if (!rockOnTheRoad(i, k, thereIsRock, p))
 				return false;
@@ -507,25 +499,30 @@ public class Board {
 	// teste si reine est devant rocher
 	public boolean rockOnTheRoad(int i, int k, Bool thereIsRock, Player p) {
 		if (board[i][k].isRock())
-			thereIsRock.set(true);
+			thereIsRock.setRock(true);
 
-		if (board[i][k].isQueen() && (board[i][k].getPlayer() != p)) {
+		if (board[i][k].isQueen() && (board[i][k].getPlayer().getNumber() != p.getNumber())) {
 			// si il y a un rocher sur le chemin de la reine adverse
-			if (!thereIsRock.get())
+			
+			thereIsRock.setQueen(true);
+			if (!thereIsRock.getRock())
 				return false;
 		}
+		if(thereIsRock.getQueen() && !thereIsRock.getRock())
+			return false;
 		return true;
 	}
 
 	private boolean isColumnAccessible2(int i, int j, Player p) {
 		Bool thereIsRock = new Bool(false);
-		for (int k = i - 1; k >= 0; k--) {
-			if (!rockOnTheRoad(i, k, thereIsRock, p))
+		for (int k = i-1; k >= 0; k--) {
+			if (!rockOnTheRoad(k, j, thereIsRock, p))
 				return false;
 		}
-		thereIsRock.set(false);
-		for (int k = i + 1; k < size; k++) {
-			if (!rockOnTheRoad(i, k, thereIsRock, p))
+		thereIsRock.setRock(false);
+		thereIsRock.setQueen(false);
+		for (int k = i+1; k < size; k++) {
+			if (!rockOnTheRoad(k, j, thereIsRock, p))
 				return false;
 		}
 		return true;
@@ -542,7 +539,7 @@ public class Board {
 		}
 		lig = i - 1;
 		col = j - 1;
-		thereIsRock.set(false);
+		thereIsRock.setRock(false);
 		while (lig >= 0 && col >= 0) {
 			if (!rockOnTheRoad(lig, col, thereIsRock, p))
 				return false;
@@ -556,7 +553,7 @@ public class Board {
 		Bool thereIsRock = new Bool(false);
 		int lig = i + 1, col = j - 1;
 		while (lig < size && col >= 0) {
-			if(!rockOnTheRoad(lig, col, thereIsRock, p))
+			if (!rockOnTheRoad(lig, col, thereIsRock, p))
 				return false;
 			lig++;
 			col--;
@@ -564,74 +561,77 @@ public class Board {
 		lig = i - 1;
 		col = j + 1;
 		while (lig >= 0 && col < size) {
-			if(!rockOnTheRoad(lig, col, thereIsRock, p))
+			if (!rockOnTheRoad(lig, col, thereIsRock, p))
 				return false;
 			lig--;
 			col++;
 		}
 		return true;
-	}	
-	
-	public int numberOfAccessible2(Player p){
+	}
+
+	public int numberOfAccessible2(Player p) {
 		int res = 0;
-		for(int i=0; i < size; i++){
-			for(int j=0; j < size; j++){
-				if(isAccessible2(i, j, p)){
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				if (isAccessible2(i, j, p)) {
 					++res;
 				}
 			}
 		}
 		return res;
 	}
-	
-	public String toStringAccess2(Player p){
+
+	public String toStringAccess2(Player p) {
 		StringBuilder sb = new StringBuilder();
-		for(int i=0; i < size; i++){
-			for(int j=0; j < size; j++){
-				if(isAccessible2(i, j, p)){
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				if (isAccessible2(i, j, p)) {
 					sb.append(board[i][j].toString() + "\t");
-				}else{
-					sb.append("xx\t");
+				} else {
+					if (board[i][j].blocksPassageway())
+						sb.append(board[i][j].toString() + "\t");
+					else
+						sb.append("xx\t");
 				}
 			}
 			sb.append('\n');
 		}
 		return sb.toString();
 	}
-	
+
 	public boolean placeQueen2(int i, int j, Player player) {
-		if(!isAccessible(i, j)){
+		if (!isAccessible2(i, j, player)) {
 			return false;
 		}
-		if(player.getNumber() == 0){
+		if (player.getNumber() == 0) {
 			++queensPlayer0;
 			board[i][j] = game.getQueen0();
-		}else{
+		} else {
 			++queensPlayer1;
 			board[i][j] = game.getQueen1();
 		}
-		
+
 		return true;
 	}
 
 	public boolean placeRock2(int i, int j, Player player) {
-		if(board[i][j].blocksPassageway()){
+		if (board[i][j].blocksPassageway()) {
 			return false;
 		}
-		if(player.getNumber() == 0){
+		if (player.getNumber() == 0) {
 			++rocksPlayer0;
 			board[i][j] = game.getRock0();
-		}else{
+		} else {
 			++rocksPlayer1;
 			board[i][j] = game.getRock1();
 		}
-		
+
 		return true;
 	}
-	
-	public int getScore(Player player){
-		return player.getNumber() == 0 ? rocksPlayer0*rockValue + queensPlayer0*queenValue
-				: rocksPlayer1*rockValue + queensPlayer1*queenValue;
+
+	public int getScore(Player player) {
+		return player.getNumber() == 0 ? rocksPlayer0 * rockValue + queensPlayer0 * queenValue
+				: rocksPlayer1 * rockValue + queensPlayer1 * queenValue;
 	}
 
 	// ----------------------TP4&5--------------------------
