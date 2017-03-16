@@ -113,10 +113,10 @@ public class Main {
 		Board board = new Board(g, 4);
 		
 		//testSolo(board);
-		testComputer(board);
+		//testComputer(board);
 		//testBoardArray(board);
 		
-		//display(board);
+		display(board);
 	}
 
 }
