@@ -28,6 +28,11 @@ public class Empty implements Square {
 	}
 	
 	@Override
+	public boolean isRock(){
+		return false;
+	}
+	
+	@Override
 	public boolean isQueen(){
 		return false;
 	}

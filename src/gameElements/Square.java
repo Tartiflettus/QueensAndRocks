@@ -7,4 +7,5 @@ public interface Square {
 	
 	public boolean blocksPassageway();
 	public boolean isQueen();
+	public boolean isRock();
 }
