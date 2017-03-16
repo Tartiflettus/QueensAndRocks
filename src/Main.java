@@ -81,8 +81,8 @@ public class Main {
 	
 	
 	private static void testComputer(Board board){
-		for(int i=3; i <= 12; i++){
-			System.gc();
+		for(int i=3; i <= 4; i++){
+			//System.gc();
 			board = new Board(board.getGame(), i);
 			testComputerAux(board);
 		}
@@ -108,15 +108,24 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("ça tourne");
 		Game g = new Game();
 		g.setColorMode("wb");
 		Board board = new Board(g, 4);
 		
+<<<<<<< HEAD
+		testSolo(board);
+=======
 		//testSolo(board);
+>>>>>>> 8955d73333b742316c6cabce26f61413108d7cef
 		//testComputer(board);
 		//testBoardArray(board);
 		
 		display(board);
+<<<<<<< HEAD
+		System.out.println("ça tourne");
+=======
+>>>>>>> 8955d73333b742316c6cabce26f61413108d7cef
 	}
 
 }
