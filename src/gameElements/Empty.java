@@ -27,4 +27,10 @@ public class Empty implements Square {
 		return false;
 	}
 
+	@Override
+	public boolean isQueen() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

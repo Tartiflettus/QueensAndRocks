@@ -74,7 +74,7 @@ public class GameUI {
 	}
 
 	public GameUI(){
-		this(new Board(),11);
+		this(new Board(null),11);
 	}
 
 
