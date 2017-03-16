@@ -26,10 +26,9 @@ public class Empty implements Square {
 	public boolean blocksPassageway(){
 		return false;
 	}
-
+	
 	@Override
-	public boolean isQueen() {
-		// TODO Auto-generated method stub
+	public boolean isQueen(){
 		return false;
 	}
 
