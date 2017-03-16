@@ -65,6 +65,20 @@ public class Board {
 	public int getRocksPlayer1() {
 		return rocksPlayer1;
 	}
+	
+	public int getNumberOfRocksLeft(Player p){
+		assert(p.getNumber() == 0 || p.getNumber() == 1);
+		return p.getNumber() == 0 ? rocksPlayer0 : rocksPlayer1;
+	}
+	
+	public void useRock(Player p){
+		assert(p.getNumber() == 0 || p.getNumber() == 1);
+		if(p.getNumber() == 0){
+			--rocksPlayer0;
+		}else{
+			--rocksPlayer1;
+		}
+	}
 
 	public void setRocksPlayer1(int rocksPlayer1) {
 		this.rocksPlayer1 = rocksPlayer1;
@@ -481,11 +495,6 @@ public class Board {
 	public boolean placeRock2(int i, int j, Player player) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
-	public int getNumberOfRocksLeft(Player player){
-		// TODO Auto-generated method stub
-		return 0;  
 	}
 	
 	public int getScore(Player player){

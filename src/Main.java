@@ -113,19 +113,12 @@ public class Main {
 		g.setColorMode("wb");
 		Board board = new Board(g, 4);
 		
-<<<<<<< HEAD
-		testSolo(board);
-=======
 		//testSolo(board);
->>>>>>> 8955d73333b742316c6cabce26f61413108d7cef
 		//testComputer(board);
 		//testBoardArray(board);
 		
 		display(board);
-<<<<<<< HEAD
 		System.out.println("ça tourne");
-=======
->>>>>>> 8955d73333b742316c6cabce26f61413108d7cef
 	}
 
 }
