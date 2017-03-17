@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import gameElements.Board;
 import gameElements.Game;
@@ -123,6 +124,33 @@ public class Main {
 		System.out.println(b.toStringAccess2(g.getPlayer1()));
 	}
 
+	public static void test2Player(Board b){
+		Player p1 = new Player(0);
+		Player p2 = new Player(1);
+		Player pActu = p1;
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		int lig, col;
+		char action;
+		
+		while(true){
+			b.toStringAccess2(pActu);
+			System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
+			lig = sc.nextInt();
+			if(lig == -1) {break;}
+			col  = sc.nextInt();
+			action = (char) sc.nextShort();
+			
+			if(action == 'q'){
+				b.placeQueen2(col, lig, pActu);
+			}else{
+				b.placeRock2(col, lig, pActu);
+			}
+			
+			pActu = pActu.getNumber() == 0 ? p2 : p1;
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -132,12 +160,14 @@ public class Main {
 		g.setColorMode("wb");
 		Board board = new Board(g, 4);
 		
+		test2Player(board);
+		
 		//testSolo(board);
 		//testComputer(board);
 		//testBoardArray(board);
-		testClone(board);
+		//testClone(board);
 		
-		display(board);
+		//display(board);
 		System.out.println("ça tourne");
 	}
 

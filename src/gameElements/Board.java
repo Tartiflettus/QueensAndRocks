@@ -2,6 +2,7 @@ package gameElements;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class Board {
 
@@ -632,6 +633,33 @@ public class Board {
 	public int getScore(Player player) {
 		return player.getNumber() == 0 ? rocksPlayer0 * rockValue + queensPlayer0 * queenValue
 				: rocksPlayer1 * rockValue + queensPlayer1 * queenValue;
+	}
+	
+	public void test2Player(){
+		Board b = new Board(new Game(), 6);
+		Player p1 = new Player(0);
+		Player p2 = new Player(1);
+		Player pActu = p1;
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		int lig, col;
+		char action;
+		
+		while(true){
+			b.toStringAccess2(pActu);
+			System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
+			lig = sc.nextInt();
+			if(lig == -1) {break;}
+			col  = sc.nextInt();
+			action = (char) sc.nextShort();
+			
+			if(action == 'q'){
+				b.placeQueen2(col, lig, pActu);
+			}
+			pActu = pActu.getNumber() == 0 ? p2 : p1;
+		}
+		
+		//Integer.parseInt(str));
 	}
 
 	// ----------------------TP4&5--------------------------
