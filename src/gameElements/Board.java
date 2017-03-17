@@ -84,6 +84,15 @@ public class Board {
 			--rocksPlayer1;
 		}
 	}
+	
+	public void useQueen(Player p){
+		assert (p.getNumber() == 0 || p.getNumber() == 1);
+		if (p.getNumber() == 0) {
+			++nbQueensPlayer0;
+		} else {
+			++nbQueensPlayer1;
+		}
+	}
 
 	public void setRocksPlayer1(int rocksPlayer1) {
 		this.rocksPlayer1 = rocksPlayer1;
@@ -606,13 +615,12 @@ public class Board {
 		if (!isAccessible2(i, j, player)) {
 			return false;
 		}
-		if (player.getNumber() == 0) {
-			++nbQueensPlayer0;
-			board[i][j] = game.getQueen0();
-		} else {
-			++nbQueensPlayer1;
-			board[i][j] = game.getQueen1();
+		if(nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == NB_ROCKS && rocksPlayer1 == NB_ROCKS){
+			//first move : forbidden for queen
+			return false;
 		}
+		useQueen(player);
+		setPiece(i, j, player.getNumber()==0 ? game.getQueen0() : game.getQueen1());
 
 		return true;
 	}
@@ -626,8 +634,7 @@ public class Board {
 			return false;
 		}
 		useRock(player);
-		board[i][j] = player.getNumber()==0 ? game.getRock0() : game.getRock1();
-
+		setPiece(i, j, player.getNumber()==0 ? game.getRock0() : game.getRock1());
 		return true;
 	}
 
