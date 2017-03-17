@@ -131,6 +131,7 @@ public class GameUI {
 
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+		b.getGame().setCurrentPlayer(currentPlayer);
 	}
 	
 	public void changePlayer(){

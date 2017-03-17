@@ -20,9 +20,9 @@ public class Board {
 
 	private int rocksPlayer0;
 	private int rocksPlayer1;
-	
+
 	private static final int NB_ROCKS = 5;
-	
+
 	private int nbQueensPlayer0;
 	private int nbQueensPlayer1;
 
@@ -85,8 +85,8 @@ public class Board {
 			--rocksPlayer1;
 		}
 	}
-	
-	public void useQueen(Player p){
+
+	public void useQueen(Player p) {
 		assert (p.getNumber() == 0 || p.getNumber() == 1);
 		if (p.getNumber() == 0) {
 			++nbQueensPlayer0;
@@ -493,89 +493,98 @@ public class Board {
 	}
 
 	private boolean isLineAccessible2(int i, int j, Player p) {
-		Bool thereIsRock = new Bool(false);
-		for (int k = j-1; k >= 0; k--) {
-			if (!rockOnTheRoad(i, k, thereIsRock, p))
+		int road;
+		for (int k = i - 1; k >= 0; k--) {
+			road = rockOnTheRoad(k, j, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 		}
-		thereIsRock.setRock(false);
-		thereIsRock.setQueen(false);
-		for (int k = j+1; k < size; k++) {
-
-			if (!rockOnTheRoad(i, k, thereIsRock, p))
+		for (int k = i + 1; k < size; k++) {
+			road = rockOnTheRoad(k, j, p);
+			if (road == 0)
 				return false;
-
+			else if (road == 2)
+				break;
 		}
 		return true;
 	}
 
-	// teste si reine est devant rocher
-	public boolean rockOnTheRoad(int i, int k, Bool thereIsRock, Player p) {
+	// teste si c'est une reine ou un rocher
+	public int rockOnTheRoad(int i, int k, Player p) {
 		if (board[i][k].isRock())
-			thereIsRock.setRock(true);
-
-		if (board[i][k].isQueen() && (board[i][k].getPlayer().getNumber() != p.getNumber())) {
-			// si il y a un rocher sur le chemin de la reine adverse
-			
-			thereIsRock.setQueen(true);
-			if (!thereIsRock.getRock())
-				return false;
-		}
-		if(thereIsRock.getQueen() && !thereIsRock.getRock())
-			return false;
-		return true;
+			return 2;
+		if (board[i][k].isQueen() && (board[i][k].getPlayer().getNumber() != p.getNumber()))
+			return 0;
+		return 1;
 	}
 
 	private boolean isColumnAccessible2(int i, int j, Player p) {
-		Bool thereIsRock = new Bool(false);
-		for (int k = i-1; k >= 0; k--) {
-			if (!rockOnTheRoad(k, j, thereIsRock, p))
+		int road;
+		for (int k = j - 1; k >= 0; k--) {
+			road = rockOnTheRoad(i, k, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 		}
-		thereIsRock.setRock(false);
-		thereIsRock.setQueen(false);
-		for (int k = i+1; k < size; k++) {
-			if (!rockOnTheRoad(k, j, thereIsRock, p))
+		for (int k = j + 1; k < size; k++) {
+			road = rockOnTheRoad(i, k, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 		}
 		return true;
 	}
 
-	private boolean isLeftDiagonalAccessible2(int i, int j, Player p) {
-		Bool thereIsRock = new Bool(false);
+	private boolean isRightDiagonalAccessible2(int i, int j, Player p) {
+		int road;
 		int lig = i + 1, col = j + 1;
 		while (lig < size && col < size) {
-			if (!rockOnTheRoad(lig, col, thereIsRock, p))
+			road = rockOnTheRoad(lig, col, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 			lig++;
 			col++;
 		}
 		lig = i - 1;
 		col = j - 1;
-		thereIsRock.setRock(false);
 		while (lig >= 0 && col >= 0) {
-			if (!rockOnTheRoad(lig, col, thereIsRock, p))
+			road = rockOnTheRoad(lig, col, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 			lig--;
 			col--;
 		}
 		return true;
 	}
 
-	private boolean isRightDiagonalAccessible2(int i, int j, Player p) {
-		Bool thereIsRock = new Bool(false);
+	private boolean isLeftDiagonalAccessible2(int i, int j, Player p) {
+		int road;
 		int lig = i + 1, col = j - 1;
 		while (lig < size && col >= 0) {
-			if (!rockOnTheRoad(lig, col, thereIsRock, p))
+			road = rockOnTheRoad(lig, col, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 			lig++;
 			col--;
 		}
 		lig = i - 1;
 		col = j + 1;
 		while (lig >= 0 && col < size) {
-			if (!rockOnTheRoad(lig, col, thereIsRock, p))
+			road = rockOnTheRoad(lig, col, p);
+			if (road == 0)
 				return false;
+			else if (road == 2)
+				break;
 			lig--;
 			col++;
 		}
@@ -616,12 +625,12 @@ public class Board {
 		if (!isAccessible2(i, j, player)) {
 			return false;
 		}
-		if(nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == size && rocksPlayer1 == size){
-			//first move : forbidden for queen
+		if (nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == size && rocksPlayer1 == size) {
+			// first move : forbidden for queen
 			return false;
 		}
 		useQueen(player);
-		setPiece(i, j, player.getNumber()==0 ? game.getQueen0() : game.getQueen1());
+		setPiece(i, j, player.getNumber() == 0 ? game.getQueen0() : game.getQueen1());
 
 		return true;
 	}
@@ -630,21 +639,20 @@ public class Board {
 		if (board[i][j].blocksPassageway()) {
 			return false;
 		}
-		if(player.getNumber() == 0 && rocksPlayer0<=0
-				|| player.getNumber() == 1 && rocksPlayer1<=0){
+		if (player.getNumber() == 0 && rocksPlayer0 <= 0 || player.getNumber() == 1 && rocksPlayer1 <= 0) {
 			return false;
 		}
 		useRock(player);
-		setPiece(i, j, player.getNumber()==0 ? game.getRock0() : game.getRock1());
+		setPiece(i, j, player.getNumber() == 0 ? game.getRock0() : game.getRock1());
 		return true;
 	}
 
 	public int getScore(Player player) {
-		return player.getNumber() == 0 ? (size-rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
-				: (size-rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
+		return player.getNumber() == 0 ? (size - rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
+				: (size - rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
 	}
-	
-	public void test2Player(){
+
+	public void test2Player() {
 		Board b = new Board(new Game(), 6);
 		Player p1 = new Player(0);
 		Player p2 = new Player(1);
@@ -653,27 +661,38 @@ public class Board {
 		String str = sc.nextLine();
 		int lig, col;
 		char action;
-		
-		while(true){
+
+		while (true) {
 			b.toStringAccess2(pActu);
 			System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
 			lig = sc.nextInt();
-			if(lig == -1) {break;}
-			col  = sc.nextInt();
+			if (lig == -1) {
+				break;
+			}
+			col = sc.nextInt();
 			action = (char) sc.nextShort();
-			
-			if(action == 'q'){
+
+			if (action == 'q') {
 				b.placeQueen2(col, lig, pActu);
 			}
 			pActu = pActu.getNumber() == 0 ? p2 : p1;
 		}
-		
-		//Integer.parseInt(str));
+
+		// Integer.parseInt(str));
 	}
 
 	// ----------------------TP4&5--------------------------
 	public boolean isFinal() {
-		// TODO Auto-generated method stub
+		if (nbPieces == size * size)
+			return true;
+		if (game.getCurrentPlayer().getNumber() == game.getPlayer0().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer0()) == 0 && getNumberOfRocksLeft(game.getPlayer0()) == 0)
+				return true;
+		}
+		if (game.getCurrentPlayer().getNumber() == game.getPlayer1().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer1()) == 0 && getNumberOfRocksLeft(game.getPlayer1()) == 0)
+				return true;
+		}
 		return false;
 	}
 

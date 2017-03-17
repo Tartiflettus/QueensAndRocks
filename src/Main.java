@@ -158,7 +158,7 @@ public class Main {
 		System.out.println("ça tourne");
 		Game g = new Game();
 		g.setColorMode("wb");
-		Board board = new Board(g, 4);
+		Board board = new Board(g, 3);
 		
 		//test2Player(board);
 		
