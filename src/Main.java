@@ -160,14 +160,14 @@ public class Main {
 		g.setColorMode("wb");
 		Board board = new Board(g, 4);
 		
-		test2Player(board);
+		//test2Player(board);
 		
 		//testSolo(board);
 		//testComputer(board);
 		//testBoardArray(board);
 		//testClone(board);
 		
-		//display(board);
+		display(board);
 		System.out.println("ça tourne");
 	}
 
