@@ -35,8 +35,8 @@ public class Board {
 		this.size = size;
 		this.nbPieces = nbPieces;
 		this.board = board;
-		rocksPlayer0 = NB_ROCKS;
-		rocksPlayer1 = NB_ROCKS;
+		rocksPlayer0 = size;
+		rocksPlayer1 = size;
 	}
 
 	public Board(Game g, int size) {
@@ -51,8 +51,8 @@ public class Board {
 				this.board[i][j] = new Empty();
 			}
 		}
-		rocksPlayer0 = NB_ROCKS;
-		rocksPlayer1 = NB_ROCKS;
+		rocksPlayer0 = size;
+		rocksPlayer1 = size;
 	}
 
 	// default size of the board : 8
@@ -616,7 +616,7 @@ public class Board {
 		if (!isAccessible2(i, j, player)) {
 			return false;
 		}
-		if(nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == NB_ROCKS && rocksPlayer1 == NB_ROCKS){
+		if(nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == size && rocksPlayer1 == size){
 			//first move : forbidden for queen
 			return false;
 		}
@@ -640,8 +640,8 @@ public class Board {
 	}
 
 	public int getScore(Player player) {
-		return player.getNumber() == 0 ? (NB_ROCKS-rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
-				: (NB_ROCKS-rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
+		return player.getNumber() == 0 ? (size-rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
+				: (size-rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
 	}
 	
 	public void test2Player(){
