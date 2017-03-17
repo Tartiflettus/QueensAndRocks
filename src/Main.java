@@ -113,10 +113,10 @@ public class Main {
 		//assert(!b.placeQueen2(3, 3, g.getPlayer1()));
 		//assert(b.placeQueen2(1,  2,  g.getPlayer1()));
 		
-		assert(b.placeRock2(0, 0, g.getPlayer0()));
-		assert(b.placeRock2(1, 1, g.getPlayer1()));
-		assert(b.placeRock2(2,  2,  g.getPlayer0()));
-		assert(b.placeRock2(3,  3,  g.getPlayer1()));
+		//assert(b.placeRock2(0, 0, g.getPlayer0()));
+		//assert(b.placeRock2(1, 1, g.getPlayer1()));
+		//assert(b.placeRock2(2,  2,  g.getPlayer0()));
+		//assert(b.placeRock2(3,  3,  g.getPlayer1()));
 
 		System.out.println(b.isAccessible2(1,0, new Player(1)));
 		System.out.println(b.toStringAccess());

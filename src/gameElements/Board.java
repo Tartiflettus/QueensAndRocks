@@ -20,8 +20,11 @@ public class Board {
 
 	private int rocksPlayer0;
 	private int rocksPlayer1;
-	private int queensPlayer0;
-	private int queensPlayer1;
+	
+	private static final int NB_ROCKS = 5;
+	
+	private int nbQueensPlayer0;
+	private int nbQueensPlayer1;
 
 	private static final int queenValue = 5;
 	private static final int rockValue = 2;
@@ -32,8 +35,8 @@ public class Board {
 		this.size = size;
 		this.nbPieces = nbPieces;
 		this.board = board;
-		rocksPlayer0 = 0;
-		rocksPlayer1 = 0;
+		rocksPlayer0 = NB_ROCKS;
+		rocksPlayer1 = NB_ROCKS;
 	}
 
 	public Board(Game g, int size) {
@@ -48,8 +51,8 @@ public class Board {
 				this.board[i][j] = new Empty();
 			}
 		}
-		rocksPlayer0 = 0;
-		rocksPlayer1 = 0;
+		rocksPlayer0 = NB_ROCKS;
+		rocksPlayer1 = NB_ROCKS;
 	}
 
 	// default size of the board : 8
@@ -80,6 +83,15 @@ public class Board {
 			--rocksPlayer0;
 		} else {
 			--rocksPlayer1;
+		}
+	}
+	
+	public void useQueen(Player p){
+		assert (p.getNumber() == 0 || p.getNumber() == 1);
+		if (p.getNumber() == 0) {
+			++nbQueensPlayer0;
+		} else {
+			++nbQueensPlayer1;
 		}
 	}
 
@@ -604,13 +616,12 @@ public class Board {
 		if (!isAccessible2(i, j, player)) {
 			return false;
 		}
-		if (player.getNumber() == 0) {
-			++queensPlayer0;
-			board[i][j] = game.getQueen0();
-		} else {
-			++queensPlayer1;
-			board[i][j] = game.getQueen1();
+		if(nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == NB_ROCKS && rocksPlayer1 == NB_ROCKS){
+			//first move : forbidden for queen
+			return false;
 		}
+		useQueen(player);
+		setPiece(i, j, player.getNumber()==0 ? game.getQueen0() : game.getQueen1());
 
 		return true;
 	}
@@ -619,20 +630,18 @@ public class Board {
 		if (board[i][j].blocksPassageway()) {
 			return false;
 		}
-		if (player.getNumber() == 0) {
-			++rocksPlayer0;
-			board[i][j] = game.getRock0();
-		} else {
-			++rocksPlayer1;
-			board[i][j] = game.getRock1();
+		if(player.getNumber() == 0 && rocksPlayer0<=0
+				|| player.getNumber() == 1 && rocksPlayer1<=0){
+			return false;
 		}
-
+		useRock(player);
+		setPiece(i, j, player.getNumber()==0 ? game.getRock0() : game.getRock1());
 		return true;
 	}
 
 	public int getScore(Player player) {
-		return player.getNumber() == 0 ? rocksPlayer0 * rockValue + queensPlayer0 * queenValue
-				: rocksPlayer1 * rockValue + queensPlayer1 * queenValue;
+		return player.getNumber() == 0 ? (NB_ROCKS-rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
+				: (NB_ROCKS-rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
 	}
 	
 	public void test2Player(){
