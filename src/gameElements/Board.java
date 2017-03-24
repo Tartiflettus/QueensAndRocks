@@ -695,7 +695,57 @@ public class Board {
 		}
 		return false;
 	}
-
+	
+	public boolean isFinal(Player p){
+		if (nbPieces == size * size)
+			return true;
+		if (p.getNumber() == game.getPlayer0().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer0()) == 0 && getNumberOfRocksLeft(game.getPlayer0()) == 0)
+				return true;
+		}
+		if (p.getNumber() == game.getPlayer1().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer1()) == 0 && getNumberOfRocksLeft(game.getPlayer1()) == 0)
+				return true;
+		}
+		return false;
+	}
+	
+	public Iterable<Board> getSuccessors2(Player p){
+		ArrayList<Board> res = new ArrayList<Board>();
+		
+		for(int i=0; i < size; ++i){
+			for(int j=0; j < size; ++j){
+				if(isAccessible2(i, j, p)){ //queen
+					Board tmp = this.clone();
+					tmp.placeQueen2(i, j, p);
+					res.add(tmp);
+				}
+				if(!board[i][j].blocksPassageway()){ //rock
+					Board tmp = this.clone();
+					tmp.placeRock2(i, j, p);
+					res.add(tmp);
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	public float evaluation(Board b, Player p, int c, Eval e, Player playing){
+		/*if(c == 0){
+			return e.getEval(playing, b);
+		}
+		if(b.isFinal(playing)){
+			return e.getEval(playing, b) > e.getEval(b.get, b)
+		}*/
+		
+		
+		
+		return 0f;
+	}
+	
+	
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
 		ArrayList<Board> succ = getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
