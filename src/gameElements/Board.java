@@ -695,7 +695,28 @@ public class Board {
 		}
 		return false;
 	}
-
+	
+	public Iterable<Board> getSuccessors2(Player p){
+		ArrayList<Board> res = new ArrayList<Board>();
+		
+		for(int i=0; i < size; ++i){
+			for(int j=0; j < size; ++j){
+				if(isAccessible2(i, j, p)){ //queen
+					Board tmp = this.clone();
+					tmp.placeQueen2(i, j, p);
+					res.add(tmp);
+				}
+				if(!board[i][j].blocksPassageway()){ //rock
+					Board tmp = this.clone();
+					tmp.placeRock2(i, j, p);
+					res.add(tmp);
+				}
+			}
+		}
+		
+		return res;
+	}
+	
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
 		// TODO Auto-generated method stub
 		return null;
