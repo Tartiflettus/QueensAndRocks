@@ -28,6 +28,11 @@ public class Rock implements Square {
 	}
 	
 	@Override
+	public boolean isRock() {
+		return true;
+	}
+	
+	@Override
 	public boolean isQueen(){
 		return false;
 	}

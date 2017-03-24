@@ -15,6 +15,7 @@ public class Game {
 	private Queen queen1;
 	private Rock rock1;
 	private Empty empty;
+	private Player currentPlayer;
 
 	public Game() {
 		player0 = new Player(0);
@@ -28,6 +29,7 @@ public class Game {
 		queen1.setPlayer(player1);
 		rock1.setPlayer(player1);
 		empty = new Empty();
+		currentPlayer = player0;
 	}
 	
 	
@@ -72,5 +74,12 @@ public class Game {
 		return p.equals(player0) ? player1 : player0;
 	}
 	
+	public void setCurrentPlayer(Player p){
+		currentPlayer = p;
+	}
+	
+	public Player getCurrentPlayer(){
+		return currentPlayer;
+	}
 	
 }

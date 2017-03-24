@@ -131,6 +131,7 @@ public class GameUI {
 
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+		b.getGame().setCurrentPlayer(currentPlayer);
 	}
 	
 	public void changePlayer(){
@@ -194,6 +195,7 @@ public class GameUI {
 				}
 				else{
 					if(showingAccess && b.getPiece(i, j) instanceof Empty && !b.isAccessible2(i, j,currentPlayer)){
+						
 						URL url = getClass().getResource("/red.png") ;
 						buttons[i][j]=new JButton(new ImageIcon(Toolkit.getDefaultToolkit().getImage(url)));
 					}
