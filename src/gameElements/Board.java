@@ -733,16 +733,19 @@ public class Board {
 	
 	
 	public float evaluation(Board b, Player p, int c, Eval e, Player playing){
-		/*if(c == 0){
+		if(c == 0){
 			return e.getEval(playing, b);
 		}
 		if(b.isFinal(playing)){
-			return e.getEval(playing, b) > e.getEval(b.get, b)
-		}*/
+			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+		}
 		
-		
-		
-		return 0f;
+		float max = Float.NEGATIVE_INFINITY;
+		for(Board elem : b.getSuccessors2(b.game.otherPlayer(playing))){
+			float eval = evaluation(elem, p, c-1, e, b.game.otherPlayer(playing));
+			max = max < eval ? eval : max; //récupérer le meilleur
+		}
+		return max;
 	}
 	
 	
