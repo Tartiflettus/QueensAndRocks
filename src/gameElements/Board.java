@@ -696,6 +696,20 @@ public class Board {
 		return false;
 	}
 	
+	public boolean isFinal(Player p){
+		if (nbPieces == size * size)
+			return true;
+		if (p.getNumber() == game.getPlayer0().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer0()) == 0 && getNumberOfRocksLeft(game.getPlayer0()) == 0)
+				return true;
+		}
+		if (p.getNumber() == game.getPlayer1().getNumber()) {
+			if (numberOfAccessible2(game.getPlayer1()) == 0 && getNumberOfRocksLeft(game.getPlayer1()) == 0)
+				return true;
+		}
+		return false;
+	}
+	
 	public Iterable<Board> getSuccessors2(Player p){
 		ArrayList<Board> res = new ArrayList<Board>();
 		
@@ -716,6 +730,21 @@ public class Board {
 		
 		return res;
 	}
+	
+	
+	public float evaluation(Board b, Player p, int c, Eval e, Player playing){
+		/*if(c == 0){
+			return e.getEval(playing, b);
+		}
+		if(b.isFinal(playing)){
+			return e.getEval(playing, b) > e.getEval(b.get, b)
+		}*/
+		
+		
+		
+		return 0f;
+	}
+	
 	
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
 		// TODO Auto-generated method stub
