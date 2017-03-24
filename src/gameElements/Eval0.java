@@ -8,8 +8,7 @@ public class Eval0 implements Eval {
 
 	@Override
 	public float getEval(Player player, Board b) {
-		// TODO Auto-generated method stub
-		return 0;
+		return (float)b.getScore(player) - (float)b.getScore(b.getGame().otherPlayer(player));
 	}
 
 }

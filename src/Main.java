@@ -155,7 +155,6 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("ça tourne");
 		Game g = new Game();
 		g.setColorMode("wb");
 		Board board = new Board(g, 3);
@@ -168,7 +167,6 @@ public class Main {
 		//testClone(board);
 		
 		display(board);
-		System.out.println("ça tourne");
 	}
 
 }
