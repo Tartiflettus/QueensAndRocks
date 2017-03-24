@@ -697,7 +697,9 @@ public class Board {
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
-		// TODO Auto-generated method stub
+		ArrayList<Board> succ = getSuccessors2(currentPlayer);
+		float score_max = Float.NEGATIVE_INFINITY;
+		
 		return null;
 	}
 
