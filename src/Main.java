@@ -165,7 +165,7 @@ public class Main {
 		while(true){
 			b.toStringAccess2(pActu);
 			
-			if(pActu.getNumber() == 0){
+			if(pActu.getNumber() == 0){ //c'est au joueur
 				System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
 				lig = sc.nextInt();
 				if(lig == -1) {break;}
@@ -178,7 +178,7 @@ public class Main {
 					b.placeRock2(col, lig, pActu);
 				}
 			}
-			else{
+			else{ //c'est à l'ordi
 				b = b.minimax(b, pActu, 2, new Eval0());
 			}
 			
