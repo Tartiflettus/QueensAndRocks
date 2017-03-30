@@ -21,7 +21,7 @@ public class Board {
 	private int rocksPlayer0;
 	private int rocksPlayer1;
 
-	private static final int NB_ROCKS = 5;
+	//private static final int NB_ROCKS = 5;
 
 	private int nbQueensPlayer0;
 	private int nbQueensPlayer1;
@@ -163,6 +163,8 @@ public class Board {
 
 	public Board clone() {
 		Board ans = new Board(game, size, nbPieces, null);
+		
+		ans.setNbPieces(nbPieces);
 
 		Square[][] b = new Square[size][size];
 		for (int i = 0; i < size; i++) {
@@ -173,6 +175,8 @@ public class Board {
 		ans.setBoard(b);
 		ans.rocksPlayer0 = rocksPlayer0;
 		ans.rocksPlayer1 = rocksPlayer1;
+		ans.nbQueensPlayer0 = nbQueensPlayer0;
+		ans.nbQueensPlayer1 = nbQueensPlayer1;
 
 		return ans;
 	}
