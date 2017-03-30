@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import gameElements.Board;
+import gameElements.Eval;
 import gameElements.Eval0;
 import gameElements.Game;
 import gameElements.Player;
@@ -198,6 +199,21 @@ public class Main {
 		}
 	}
 	
+	
+	public static void testComputerVsComputer(Board b){
+		Player pActu = b.getGame().getPlayer0();
+		while(!b.isFinal(pActu)){
+			b = b.minimax(b, pActu, 3, new Eval0());
+			if(b == null){
+				System.out.println("fini");
+				break;
+			}
+			
+			pActu = b.getGame().otherPlayer(pActu);
+		}
+	}
+	
+	
 	/**
 	 * @param args
 	 */
@@ -213,7 +229,10 @@ public class Main {
 		//testBoardArray(board);
 		//testClone(board);
 		
-		testPlayerVsComputer(board);
+		//testPlayerVsComputer(board);
+		testComputerVsComputer(board);
+		
+		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
 		
 		//display(board);
 	}

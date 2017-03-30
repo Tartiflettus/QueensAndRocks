@@ -728,11 +728,14 @@ public class Board {
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
 		Iterable<Board> succ = getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
-		Board e_sortie = new Board(game, size);
+		Board e_sortie = null;
 		float score;
+		int numIt = 0;
 		for(Board board : succ){
+			System.out.println("itération "+numIt++);
 			score = evaluation(board, currentPlayer, minimaxDepth, evaluation, game.otherPlayer(currentPlayer));
-			if(score >= score_max){
+			//System.out.println("score : "+score);
+			if(score > score_max){
 				e_sortie = board;
 				score_max = score;
 			}
