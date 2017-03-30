@@ -130,17 +130,23 @@ public class Main {
 		Player p2 = new Player(1);
 		Player pActu = p1;
 		Scanner sc = new Scanner(System.in);
-		String str = sc.nextLine();
 		int lig, col;
 		char action;
 		
 		while(true){
-			b.toStringAccess2(pActu);
+			System.out.println(b.toStringAccess2(pActu));
+			System.out.println("score p1 : " + b.getScore(p1));
+			
 			System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
 			lig = sc.nextInt();
-			if(lig == -1) {break;}
+			if(lig == -1) {
+				sc.close();
+				break;
+			}
 			col  = sc.nextInt();
-			action = (char) sc.nextShort();
+			action = sc.next().charAt(0);
+			
+			System.out.println(action);
 			
 			if(action == 'q'){
 				b.placeQueen2(col, lig, pActu);
@@ -158,24 +164,30 @@ public class Main {
 		Player p2 = new Player(1);
 		Player pActu = p1;
 		Scanner sc = new Scanner(System.in);
-		String str = sc.nextLine();
 		int lig, col;
 		char action;
+		boolean possible;
 		
 		while(true){
-			b.toStringAccess2(pActu);
+			System.out.println(b.toStringAccess2(pActu));
 			
 			if(pActu.getNumber() == 0){ //c'est au joueur
 				System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
 				lig = sc.nextInt();
-				if(lig == -1) {break;}
+				if(lig == -1) {
+					sc.close();
+					break;
+				}
 				col  = sc.nextInt();
-				action = (char) sc.nextShort();
+				action = sc.next().charAt(0);
 				
 				if(action == 'q'){
-					b.placeQueen2(col, lig, pActu);
+					possible = b.placeQueen2(col, lig, pActu);
 				}else{
-					b.placeRock2(col, lig, pActu);
+					possible = b.placeRock2(col, lig, pActu);
+				}
+				if(!possible){
+					System.out.println("Action impossible!");
 				}
 			}
 			else{ //c'est à l'ordi
@@ -203,7 +215,7 @@ public class Main {
 		
 		testPlayerVsComputer(board);
 		
-		display(board);
+		//display(board);
 	}
 
 }
