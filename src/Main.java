@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import gameElements.Board;
+import gameElements.Eval0;
 import gameElements.Game;
 import gameElements.Player;
 import graphics.GameUI;
@@ -151,6 +152,40 @@ public class Main {
 		}
 	}
 	
+	
+	public static void testPlayerVsComputer(Board b){
+		Player p1 = new Player(0);
+		Player p2 = new Player(1);
+		Player pActu = p1;
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		int lig, col;
+		char action;
+		
+		while(true){
+			b.toStringAccess2(pActu);
+			
+			if(pActu.getNumber() == 0){
+				System.out.println("Saisir ligne colonne action (q/r) ou -1 pour quitter");
+				lig = sc.nextInt();
+				if(lig == -1) {break;}
+				col  = sc.nextInt();
+				action = (char) sc.nextShort();
+				
+				if(action == 'q'){
+					b.placeQueen2(col, lig, pActu);
+				}else{
+					b.placeRock2(col, lig, pActu);
+				}
+			}
+			else{
+				b = b.minimax(b, pActu, 2, new Eval0());
+			}
+			
+			pActu = pActu.getNumber() == 0 ? p2 : p1;
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -165,6 +200,8 @@ public class Main {
 		//testComputer(board);
 		//testBoardArray(board);
 		//testClone(board);
+		
+		testPlayerVsComputer(board);
 		
 		display(board);
 	}

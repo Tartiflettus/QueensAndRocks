@@ -739,6 +739,9 @@ public class Board {
 		if(b.isFinal(playing)){
 			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
 		}
+		/*if(b.isFinal(b.game.otherPlayer(playing))){
+			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+		}*/
 		
 		float max = Float.NEGATIVE_INFINITY;
 		for(Board elem : b.getSuccessors2(b.game.otherPlayer(playing))){
