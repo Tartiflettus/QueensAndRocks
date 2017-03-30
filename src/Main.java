@@ -216,6 +216,41 @@ public class Main {
 	}
 	
 	
+	
+	public static void testScore(Board b){
+		Player p0 = b.getGame().getPlayer0();
+		Player p1 = b.getGame().getPlayer1();
+		
+		//placer un rock en 0, 0
+		assert(b.getScore(p0) == 0);
+		assert(b.placeRock2(0, 0, p0));
+		assert(b.getScore(p0) == 2);
+		
+		//placer une reine en 2, 2
+		assert(b.getScore(p1) == 0);
+		assert(b.placeQueen2(2, 2, p1));
+		assert(b.getScore(p1) == 5);
+		
+		//placer un rock en 1, 1
+		assert(b.getScore(p0) == 2);
+		assert(b.placeRock2(1,  1, p0));
+		assert(b.getScore(p0) == 4);
+		
+		//placer une reine en 1, 0
+		assert(b.getScore(p1) == 5);
+		assert(b.placeQueen2(1,  0, p1));
+		assert(b.getScore(p1) == 10);
+		
+		//placer un rock en 0, 1
+		assert(b.getScore(p0) == 4);
+		assert(b.placeRock2(0,  1, p0));
+		assert(b.getScore(p0) == 6);
+		//System.out.println(b.toStringAccess2(p1));
+		
+		//assert(false);
+	}
+	
+	
 	/**
 	 * @param args
 	 */
@@ -223,6 +258,8 @@ public class Main {
 		Game g = new Game();
 		g.setColorMode("wb");
 		Board board = new Board(g, 3);
+		
+		testScore(board);
 		
 		//test2Player(board);
 		
@@ -236,7 +273,7 @@ public class Main {
 		
 		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
 		
-		display(board);
+		//display(board);
 	}
 
 }
