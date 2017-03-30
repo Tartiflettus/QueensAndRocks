@@ -648,8 +648,10 @@ public class Board {
 	}
 
 	public int getScore(Player player) {
-		return player.getNumber() == 0 ? (size - rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue
-				: (size - rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
+		if(player.getNumber() == 0){
+			return (size - rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue;
+		}
+		return (size - rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
 	}
 
 	
@@ -717,7 +719,7 @@ public class Board {
 		}*/
 		
 		float max = Float.NEGATIVE_INFINITY;
-		for(Board elem : b.getSuccessors2(b.game.otherPlayer(playing))){
+		for(Board elem : b.getSuccessors2(playing)){
 			float eval = evaluation(elem, p, c-1, e, b.game.otherPlayer(playing));
 			max = max < eval ? eval : max; //récupérer le meilleur
 		}
@@ -725,15 +727,15 @@ public class Board {
 	}
 	
 	
-	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
+	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval eval0) {
 		Iterable<Board> succ = getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
 		Board e_sortie = null;
 		float score;
 		int numIt = 0;
 		for(Board board : succ){
-			System.out.println("itération "+numIt++);
-			score = evaluation(board, currentPlayer, minimaxDepth, evaluation, game.otherPlayer(currentPlayer));
+			//System.out.println("itération "+numIt++);
+			score = evaluation(board, currentPlayer, minimaxDepth, eval0, game.otherPlayer(currentPlayer));
 			//System.out.println("score : "+score);
 			if(score > score_max){
 				e_sortie = board;

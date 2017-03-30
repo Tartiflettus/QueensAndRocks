@@ -203,13 +203,15 @@ public class Main {
 	public static void testComputerVsComputer(Board b){
 		Player pActu = b.getGame().getPlayer0();
 		while(!b.isFinal(pActu)){
-			b = b.minimax(b, pActu, 3, new Eval0());
+			b = b.minimax(b, pActu, 4, new Eval0());
 			if(b == null){
 				System.out.println("fini");
 				break;
 			}
 			
 			pActu = b.getGame().otherPlayer(pActu);
+			
+			System.out.println(b.toStringAccess2(pActu));
 		}
 	}
 	
@@ -230,11 +232,11 @@ public class Main {
 		//testClone(board);
 		
 		//testPlayerVsComputer(board);
-		testComputerVsComputer(board);
+		//testComputerVsComputer(board);
 		
 		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
 		
-		//display(board);
+		display(board);
 	}
 
 }
