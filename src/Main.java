@@ -259,7 +259,7 @@ public class Main {
 		g.setColorMode("wb");
 		Board board = new Board(g, 3);
 		
-		testScore(board);
+		//testScore(board);
 		
 		//test2Player(board);
 		
@@ -273,7 +273,7 @@ public class Main {
 		
 		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
 		
-		//display(board);
+		display(board);
 	}
 
 }
