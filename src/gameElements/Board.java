@@ -754,16 +754,12 @@ public class Board {
 		float score_max = Float.NEGATIVE_INFINITY;
 		Board e_sortie = new Board(game, size);
 		float score;
-		if(minimaxDepth <= 0){
-			return e_sortie;
-		}
 		for(Board board : succ){
 			score = evaluation(board, currentPlayer, minimaxDepth, evaluation, game.otherPlayer(currentPlayer));
-			if(score > score_max){
+			if(score >= score_max){
 				e_sortie = board;
 				score_max = score;
 			}
-			minimax(e_sortie, currentPlayer, minimaxDepth-1, evaluation);
 		}
 		return e_sortie;
 	}
