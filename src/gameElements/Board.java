@@ -21,13 +21,13 @@ public class Board {
 	private int rocksPlayer0;
 	private int rocksPlayer1;
 
-	//private static final int NB_ROCKS = 5;
+	// private static final int NB_ROCKS = 5;
 
 	private int nbQueensPlayer0;
 	private int nbQueensPlayer1;
 
-	private static final int queenValue = 5;
-	private static final int rockValue = 2;
+	private static final int queenValue = 25;
+	private static final int rockValue = 0;
 
 	// ---------------TP1------------------------
 	public Board(Game g, int size, int nbPieces, Square[][] board) {
@@ -163,7 +163,7 @@ public class Board {
 
 	public Board clone() {
 		Board ans = new Board(game, size, nbPieces, null);
-		
+
 		ans.setNbPieces(nbPieces);
 
 		Square[][] b = new Square[size][size];
@@ -492,6 +492,10 @@ public class Board {
 
 	// ------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player player) {
+		if (nbQueensPlayer0 == 0 && nbQueensPlayer1 == 0 && rocksPlayer0 == size && rocksPlayer1 == size) {
+			// first move : forbidden for queen
+			return false;
+		}
 		return (!board[i][j].blocksPassageway() && isLineAccessible2(i, j, player) && isColumnAccessible2(i, j, player)
 				&& isRightDiagonalAccessible2(i, j, player) && isLeftDiagonalAccessible2(i, j, player));
 	}
@@ -652,13 +656,11 @@ public class Board {
 	}
 
 	public int getScore(Player player) {
-		if(player.getNumber() == 0){
+		if (player.getNumber() == 0) {
 			return (size - rocksPlayer0) * rockValue + nbQueensPlayer0 * queenValue;
 		}
 		return (size - rocksPlayer1) * rockValue + nbQueensPlayer1 * queenValue;
 	}
-
-	
 
 	// ----------------------TP4&5--------------------------
 	public boolean isFinal() {
@@ -674,8 +676,8 @@ public class Board {
 		}
 		return false;
 	}
-	
-	public boolean isFinal(Player p){
+
+	public boolean isFinal(Player p) {
 		if (nbPieces == size * size)
 			return true;
 		if (p.getNumber() == game.getPlayer0().getNumber()) {
@@ -688,60 +690,66 @@ public class Board {
 		}
 		return false;
 	}
-	
-	public Iterable<Board> getSuccessors2(Player p){
+
+	public Iterable<Board> getSuccessors2(Player p) {
 		ArrayList<Board> res = new ArrayList<Board>();
-		
-		for(int i=0; i < size; ++i){
-			for(int j=0; j < size; ++j){
-				if(isAccessible2(i, j, p)){ //queen
+		int numberPlayer = p.getNumber();
+		int nbRocks;
+
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				if (isAccessible2(i, j, p)) { // queen
 					Board tmp = this.clone();
-					tmp.placeQueen2(i, j, p);
+					assert (tmp.placeQueen2(i, j, p));
 					res.add(tmp);
 				}
-				if(!board[i][j].blocksPassageway()){ //rock
+
+				// attribue le bon nombre de pierre
+				if (numberPlayer == 1)
+					nbRocks = rocksPlayer1;
+				else
+					nbRocks = rocksPlayer0;
+
+				if (/* numberOfAccessible2(p) == 0 && */!board[i][j].blocksPassageway() && nbRocks != 0) { // rock
 					Board tmp = this.clone();
-					tmp.placeRock2(i, j, p);
+					assert (tmp.placeRock2(i, j, p));
 					res.add(tmp);
 				}
+
 			}
 		}
-		
+
 		return res;
 	}
-	
-	
-	public float evaluation(Board b, Player p, int c, Eval e, Player playing){
-		if(c == 0){
-			return e.getEval(playing, b);
+
+	public float evaluation(Board b, Player p, int c, Eval e, Player playing) {
+		if (c == 0) {
+			return e.getEval(p, b);
 		}
-		if(b.isFinal(playing)){
-			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+		if (b.isFinal(playing)) {
+			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY
+					: Float.NEGATIVE_INFINITY;
 		}
-		/*if(b.isFinal(b.game.otherPlayer(playing))){
-			return b.getScore(playing) > b.getScore(b.game.otherPlayer(playing)) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
-		}*/
-		
+
+
 		float max = Float.NEGATIVE_INFINITY;
-		for(Board elem : b.getSuccessors2(playing)){
-			float eval = evaluation(elem, p, c-1, e, b.game.otherPlayer(playing));
-			max = max < eval ? eval : max; //récupérer le meilleur
+		for (Board elem : b.getSuccessors2(playing)) {
+			float eval = evaluation(elem, p, c - 1, e, b.game.otherPlayer(playing));
+			if(max < eval){
+				max = eval;
+			}
 		}
 		return max;
 	}
-	
-	
+
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval eval0) {
 		Iterable<Board> succ = getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
 		Board e_sortie = null;
 		float score;
-		int numIt = 0;
-		for(Board board : succ){
-			//System.out.println("itération "+numIt++);
+		for (Board board : succ) {
 			score = evaluation(board, currentPlayer, minimaxDepth, eval0, game.otherPlayer(currentPlayer));
-			//System.out.println("score : "+score);
-			if(score > score_max){
+			if (score > score_max) {
 				e_sortie = board;
 				score_max = score;
 			}

@@ -2,11 +2,13 @@ import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 
 import gameElements.Board;
 import gameElements.Eval;
 import gameElements.Eval0;
+import gameElements.Eval1;
 import gameElements.Game;
 import gameElements.Player;
 import graphics.GameUI;
@@ -213,6 +215,7 @@ public class Main {
 			
 			System.out.println(b.toStringAccess2(pActu));
 		}
+		
 	}
 	
 	
@@ -250,6 +253,71 @@ public class Main {
 		//assert(false);
 	}
 	
+	public static void testTempsEval0(Board board){
+		Date d = new Date();
+		long t = d.getTime();
+		testComputerVsComputer(board);
+		d = new Date();
+		System.out.println("Temps mis pour " + board.getSize()+ " : " + (d.getTime() - t));
+	}
+	
+	public static void testPlusieursParties(){
+		Random rand = new Random();
+		int nbParties = 4;
+		int taille = rand.nextInt(4)+3;
+		int profondeur = rand.nextInt(3)+1;
+		while(nbParties != 0){
+			Board b = new Board(new Game(), taille); 
+			Player pActu = b.getGame().getPlayer0();
+		while(!b.isFinal(pActu)){
+			b = b.minimax(b, pActu, profondeur, new Eval1());
+			if(b == null){
+				System.out.println("fini");
+				break;
+			}
+			
+			pActu = b.getGame().otherPlayer(pActu);
+			
+			System.out.println(b.toStringAccess2(pActu));
+		}
+		nbParties--;
+		taille = rand.nextInt(4)+3;
+		profondeur = rand.nextInt(4)+1;
+		}
+	}
+	
+	public static void testComputeurPlusieursProfondeurs(Board b){
+		Player pActu = b.getGame().getPlayer0();
+		while(!b.isFinal(pActu)){
+			if(pActu.getNumber() == 1)
+				b = b.minimax(b, pActu, 2, new Eval0());
+			else
+				b = b.minimax(b, pActu, 5, new Eval0());
+			if(b == null){
+				System.out.println("fini");
+				break;
+			}
+			
+			pActu = b.getGame().otherPlayer(pActu);
+			
+			System.out.println(b.toStringAccess2(pActu));
+		}	
+	}
+	
+	public static void testComputerVsComputerEval1(Board b){
+		Player pActu = b.getGame().getPlayer0();
+		while(!b.isFinal(pActu)){
+			b = b.minimax(b, pActu, 2, new Eval1());
+			if(b == null){
+				System.out.println("fini");
+				break;
+			}
+			
+			pActu = b.getGame().otherPlayer(pActu);
+			
+			System.out.println(b.toStringAccess2(pActu));
+		}	
+	}
 	
 	/**
 	 * @param args
@@ -257,7 +325,7 @@ public class Main {
 	public static void main(String[] args) {
 		Game g = new Game();
 		g.setColorMode("wb");
-		Board board = new Board(g, 3);
+		Board board = new Board(g, 4);
 		
 		//testScore(board);
 		
@@ -270,10 +338,13 @@ public class Main {
 		
 		//testPlayerVsComputer(board);
 		//testComputerVsComputer(board);
-		
+		//testComputerVsComputerEval1(board);
+		//testTempsEval0(board);
+		testPlusieursParties();
+		//testComputeurPlusieursProfondeurs(board);
 		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
 		
-		display(board);
+		//display(board);
 	}
 
 }
