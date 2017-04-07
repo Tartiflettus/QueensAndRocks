@@ -319,6 +319,14 @@ public class Main {
 		}	
 	}
 	
+	public static void testTempsEval1(Board board){
+		Date d = new Date();
+		long t = d.getTime();
+		testComputerVsComputerEval1(board);
+		d = new Date();
+		System.out.println("Temps mis pour " + board.getSize()+ " : " + (d.getTime() - t));
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -340,11 +348,12 @@ public class Main {
 		//testComputerVsComputer(board);
 		//testComputerVsComputerEval1(board);
 		//testTempsEval0(board);
-		testPlusieursParties();
+		//testPlusieursParties();
 		//testComputeurPlusieursProfondeurs(board);
 		//board.minimax(board, g.getPlayer0(), 3, new Eval0());
+		//testTempsEval1(board);
 		
-		//display(board);
+		display(board);
 	}
 
 }
